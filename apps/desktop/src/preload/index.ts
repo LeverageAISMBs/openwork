@@ -651,6 +651,64 @@ const accomplishAPI = {
     };
   },
 
+  // HuggingFace Local configuration (ENG-687)
+  startHuggingFaceServer: (
+    modelId: string,
+  ): Promise<{ success: boolean; port?: number; error?: string }> =>
+    ipcRenderer.invoke('huggingface-local:start-server', modelId),
+  stopHuggingFaceServer: (): Promise<{ success: boolean; error?: string }> =>
+    ipcRenderer.invoke('huggingface-local:stop-server'),
+  getHuggingFaceServerStatus: (): Promise<{
+    running: boolean;
+    port: number | null;
+    loadedModel: string | null;
+    isLoading: boolean;
+  }> => ipcRenderer.invoke('huggingface-local:server-status'),
+  getHuggingFaceLocalConfig: (): Promise<{
+    selectedModelId: string | null;
+    serverPort: number | null;
+    enabled: boolean;
+  } | null> => ipcRenderer.invoke('huggingface-local:get-config'),
+  setHuggingFaceLocalConfig: (
+    config: {
+      selectedModelId: string | null;
+      serverPort: number | null;
+      enabled: boolean;
+    } | null,
+  ): Promise<void> => ipcRenderer.invoke('huggingface-local:set-config', config),
+  testHuggingFaceConnection: (): Promise<{ success: boolean; error?: string }> =>
+    ipcRenderer.invoke('huggingface-local:test-connection'),
+  downloadHuggingFaceModel: (modelId: string): Promise<{ success: boolean; error?: string }> =>
+    ipcRenderer.invoke('huggingface-local:download-model', modelId),
+  listHuggingFaceModels: (): Promise<{
+    cached: Array<{ id: string; displayName: string; sizeBytes?: number; downloaded: boolean }>;
+    suggested: Array<{ id: string; displayName: string; sizeBytes?: number; downloaded: boolean }>;
+  }> => ipcRenderer.invoke('huggingface-local:list-models'),
+  deleteHuggingFaceModel: (modelId: string): Promise<{ success: boolean; error?: string }> =>
+    ipcRenderer.invoke('huggingface-local:delete-model', modelId),
+  onHuggingFaceDownloadProgress: (
+    callback: (progress: {
+      modelId: string;
+      status: 'downloading' | 'complete' | 'error';
+      progress: number;
+      error?: string;
+    }) => void,
+  ) => {
+    const listener = (
+      _: unknown,
+      progress: {
+        modelId: string;
+        status: 'downloading' | 'complete' | 'error';
+        progress: number;
+        error?: string;
+      },
+    ) => callback(progress);
+    ipcRenderer.on('huggingface-local:download-progress', listener);
+    return () => {
+      ipcRenderer.removeListener('huggingface-local:download-progress', listener);
+    };
+  },
+
   // Debug bug reporting
   captureScreenshot: (): Promise<{
     success: boolean;

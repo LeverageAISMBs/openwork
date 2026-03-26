@@ -13,6 +13,7 @@ import {
   LiteLLMProviderForm,
   LMStudioProviderForm,
   VertexProviderForm,
+  HuggingFaceProviderForm,
   CustomProviderForm,
   NimProviderForm,
   CopilotProviderForm,
@@ -131,13 +132,23 @@ export function ProviderSettingsPanel({
         );
 
       case 'local':
-        // Handle different local providers
         if (providerId === 'lmstudio') {
           return (
             <LMStudioProviderForm
               connectedProvider={connectedProvider}
               onConnect={onConnect}
               onUpdateProvider={onUpdateProvider}
+              onDisconnect={onDisconnect}
+              onModelChange={onModelChange}
+              showModelError={showModelError}
+            />
+          );
+        }
+        if (providerId === 'huggingface-local') {
+          return (
+            <HuggingFaceProviderForm
+              connectedProvider={connectedProvider}
+              onConnect={onConnect}
               onDisconnect={onDisconnect}
               onModelChange={onModelChange}
               showModelError={showModelError}

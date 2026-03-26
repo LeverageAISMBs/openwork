@@ -14,6 +14,7 @@ import openrouterLogo from '/assets/ai-logos/openrouter.svg';
 import litellmLogo from '/assets/ai-logos/litellm.svg';
 import minimaxLogo from '/assets/ai-logos/minimax.svg';
 import lmstudioLogo from '/assets/ai-logos/lmstudio.png';
+import huggingfaceLogo from '/assets/ai-logos/huggingface.svg';
 import nebiusLogo from '/assets/ai-logos/nebius.svg';
 import togetherLogo from '/assets/ai-logos/together.svg';
 import fireworksLogo from '/assets/ai-logos/fireworks.svg';
@@ -39,6 +40,7 @@ export const PROVIDER_LOGOS: Record<ProviderId, string> = {
   litellm: litellmLogo,
   minimax: minimaxLogo,
   lmstudio: lmstudioLogo,
+  'huggingface-local': huggingfaceLogo,
   nebius: nebiusLogo,
   together: togetherLogo,
   fireworks: fireworksLogo,

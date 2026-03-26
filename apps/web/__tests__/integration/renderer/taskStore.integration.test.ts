@@ -945,7 +945,9 @@ describe('taskStore Integration', () => {
         startTime: 123,
       });
       expect(state.startupStageTaskId).toBe('task-1');
-      expect(state.todos).toEqual([{ id: 'todo-1', content: 'Finish setup', status: 'in_progress' }]);
+      expect(state.todos).toEqual([
+        { id: 'todo-1', content: 'Finish setup', status: 'in_progress' },
+      ]);
       expect(state.todosTaskId).toBe('task-1');
     });
   });

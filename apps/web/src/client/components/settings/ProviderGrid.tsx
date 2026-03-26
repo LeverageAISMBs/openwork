@@ -18,6 +18,7 @@ const PROVIDER_ORDER: ProviderId[] = [
   'zai',
   'ollama',
   'lmstudio',
+  'huggingface-local',
   'xai',
   'openrouter',
   'litellm',
